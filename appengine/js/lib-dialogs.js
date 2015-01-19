@@ -370,14 +370,15 @@ BlocklyDialogs.congratulations = function() {
     top: '3em'
   };
 
-  // Add the user's code.
-  if (Blockly.mainWorkspace) {
+  var showCode = function() {
     var linesText = document.getElementById('dialogLinesText');
     linesText.textContent = '';
+    linesText.style.display = 'block';
     var code = Blockly.JavaScript.workspaceToCode();
     code = BlocklyInterface.stripCode(code);
     var lineCount = code.split('\n').length;
     var pre = document.getElementById('containerCode');
+    pre.style.display = 'block';
     pre.textContent = code;
     if (typeof prettyPrintOne == 'function') {
       code = pre.innerHTML;
@@ -390,6 +391,25 @@ BlocklyDialogs.congratulations = function() {
       var text = BlocklyGames.getMsg('Games_linesOfCode2').replace('%1', lineCount);
     }
     linesText.appendChild(document.createTextNode(text));
+    var button = document.getElementById('toggleCode');
+    var text = "Hide code"; // BlocklyGames.getMsg('Games.dialogHideCode');
+    button.textContent = text;
+  };
+  var hideCode = function() {
+    var linesText = document.getElementById('dialogLinesText');
+    var pre = document.getElementById('containerCode');
+    linesText.style.display = 'none';
+    pre.style.display = 'none';
+    var button = document.getElementById('toggleCode');
+    var text = "Show code"; // BlocklyGames.getMsg('Games.dialogShowCode');
+    button.textContent = text;
+  };
+  // Add the user's code.
+  if (Blockly.mainWorkspace && BlocklyGames.LEARN_JS) {
+    showCode();
+  } else {
+    // hide the code container
+    hideCode();
   };
 
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
@@ -405,6 +425,18 @@ BlocklyDialogs.congratulations = function() {
   var ok = document.getElementById('doneOk');
   ok.addEventListener('click', BlocklyInterface.nextLevel, true);
   ok.addEventListener('touchend', BlocklyInterface.nextLevel, true);
+  var toggle = document.getElementById('toggleCode');
+  var toggleFunction = function() {
+    if (BlocklyGames.LEARN_JS == true) {
+      BlocklyGames.LEARN_JS = false;
+      hideCode();
+    } else {
+      BlocklyGames.LEARN_JS = true;
+      showCode();
+    }
+  }
+  toggle.addEventListener('click', toggleFunction, true)
+  toggle.addEventListener('touchend', toggleFunction, true)
 
   BlocklyDialogs.showDialog(content, null, false, true, style,
       function() {
