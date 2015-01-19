@@ -408,7 +408,6 @@ BlocklyDialogs.congratulations = function() {
   if (Blockly.mainWorkspace && BlocklyGames.LEARN_JS) {
     showCode();
   } else {
-    // hide the code container
     hideCode();
   };
 

@@ -127,7 +127,7 @@ BlocklyGames.LANGUAGES = window['BlocklyGamesLanguages'];
  * Use this as step-up to learn javascript ?
  * @type boolean
  */
-BlocklyGames.LEARN_JS = false;
+BlocklyGames.LEARN_JS = true;
 
 /**
  * Is the site being served as raw HTML files, as opposed to on App Engine.
